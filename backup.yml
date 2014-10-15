@@ -1,0 +1,12 @@
+---
+- hosts: prod
+  user: "{{deploy_user}}"
+  vars_files:
+    - vars.yml
+  tasks:
+  - name: Backup Database
+    mysql_db: name={{db_name}} login_user={{mysql_user}} login_password={{mysql_password}} state=dump target=/tmp/{{db_name}}-{{ansible_date_time.date}}.sql
+
+  - name: Send Backup to S3
+    s3: aws_access_key={{aws_access_key}} aws_secret_key={{aws_secret_key}} bucket=level09 src=/tmp/{{db_name}}-{{ansible_date_time.date}}.sql object={{db_name}}-{{ansible_date_time.date}}.sql mode=put
+

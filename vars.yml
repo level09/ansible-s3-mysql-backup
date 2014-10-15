@@ -1,0 +1,7 @@
+---
+deploy_user: nidal
+db_name: test
+mysql_user: nidal
+mysql_password: xxx
+aws_access_key: xxx
+aws_secret_key: xxx
